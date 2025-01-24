@@ -31,6 +31,6 @@ class LivewireCombinationChart extends Component
 
     public function render()
     {
-        return view('livewire-charts::livewire-multi-column-multi-line-chart');
+        return view('livewire-charts::livewire-combination-chart');
     }
 }
