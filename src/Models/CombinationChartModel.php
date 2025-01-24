@@ -76,16 +76,16 @@ class CombinationChartModel extends BaseChartModel
     }
 
     /**
-     * Adds a data series to the chart.
+     * Adds a data to the chart.
      *
      * @param string $seriesName The name of the series.
      * @param string $type The type of the series.
-     * @param string $title The title of the series.
-     * @param mixed $value The value of the column.
+     * @param string $title The title of the data point.
+     * @param mixed $value The value of the data point.
      * @param array $extras Optional additional data for the column.
      * @return $this
      */
-    public function addSeries($seriesName, $type, $title, $value, $extras = [])
+    public function addSeriesData($seriesName, $type, $title, $value, $extras = [])
     {
         $series = $this->data->get($seriesName, collect());
 
