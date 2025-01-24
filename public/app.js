@@ -229,7 +229,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _areaChart__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./areaChart */ "./resources/js/areaChart.js");
 /* harmony import */ var _columnChart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./columnChart */ "./resources/js/columnChart.js");
 /* harmony import */ var _multiColumnChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./multiColumnChart */ "./resources/js/multiColumnChart.js");
-/* harmony import */ var _multiColumnMultiLineChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./multiColumnMultiLineChart */ "./resources/js/multiColumnMultiLineChart.js");
+/* harmony import */ var _combinationChart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./combinationChart */ "./resources/js/combinationChart.js");
 /* harmony import */ var _lineChart__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lineChart */ "./resources/js/lineChart.js");
 /* harmony import */ var _multiLineChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./multiLineChart */ "./resources/js/multiLineChart.js");
 /* harmony import */ var _pieChart__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./pieChart */ "./resources/js/pieChart.js");
@@ -254,7 +254,7 @@ window.livewireChartsLineChart = _lineChart__WEBPACK_IMPORTED_MODULE_5__["defaul
 window.livewireChartsMultiLineChart = _multiLineChart__WEBPACK_IMPORTED_MODULE_6__["default"];
 window.livewireChartsPieChart = _pieChart__WEBPACK_IMPORTED_MODULE_7__["default"];
 window.livewireChartsMultiColumnChart = _multiColumnChart__WEBPACK_IMPORTED_MODULE_3__["default"];
-window.livewireChartsMultiColumnMultiLineChart = _multiColumnMultiLineChart__WEBPACK_IMPORTED_MODULE_4__["default"];
+window.livewireChartsCombinationChart = _combinationChart__WEBPACK_IMPORTED_MODULE_4__["default"];
 window.livewireChartsRadarChart = _radarChart__WEBPACK_IMPORTED_MODULE_8__["default"];
 window.livewireChartsTreeMapChart = _treeMapChart__WEBPACK_IMPORTED_MODULE_9__["default"];
 window.livewireChartsRadialChart = _radialChart__WEBPACK_IMPORTED_MODULE_10__["default"];
@@ -488,6 +488,151 @@ var columnChart = function columnChart() {
   };
 };
 /* harmony default export */ __webpack_exports__["default"] = (columnChart);
+
+/***/ }),
+
+/***/ "./resources/js/combinationChart.js":
+/*!******************************************!*\
+  !*** ./resources/js/combinationChart.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./resources/js/helpers.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+var combinationChart = function combinationChart() {
+  return {
+    chart: null,
+    init: function init() {
+      var _this = this;
+      setTimeout(function () {
+        _this.drawChart(_this.$wire);
+      }, 0);
+    },
+    drawChart: function drawChart(component) {
+      if (this.chart) {
+        this.chart.destroy();
+      }
+      var title = component.get("combinationChartModel.title");
+      var stacked = component.get("combinationChartModel.isStacked");
+      var animated = component.get("combinationChartModel.animated") || false;
+      var dataLabels = component.get("combinationChartModel.dataLabels") || {};
+      var data = component.get("combinationChartModel.data") || [];
+      var onPointClickEventName = component.get("combinationChartModel.onPointClickEventName");
+      var onColumnClickEventName = component.get("combinationChartModel.onColumnClickEventName");
+      var sparkline = component.get("combinationChartModel.sparkline");
+      var legend = component.get('combinationChartModel.legend');
+      var grid = component.get('combinationChartModel.grid');
+      var columnWidth = component.get('combinationChartModel.columnWidth');
+      var jsonConfig = component.get("combinationChartModel.jsonConfig");
+      var series = Object.keys(data).map(function (name, type) {
+        return {
+          name: name,
+          type: type,
+          data: data[seriesName].map(function (item) {
+            var date = Date.parse(item.title);
+            if (isNaN(date)) {
+              return {
+                x: item.title,
+                y: item.value
+              };
+            } else {
+              return {
+                x: date,
+                y: item.value
+              };
+            }
+          })
+        };
+      });
+      var titles = component.get("combinationChartModel.xAxis.categories").length > 0 ? component.get("combinationChartModel.xAxis.categories") : data[series[0].name] && data[series[0].name].length > 0 ? data[series[0].name].map(function (item) {
+        var date = Date.parse(item.title);
+        if (isNaN(date)) {
+          return item.title;
+        } else {
+          return date;
+        }
+      }) : [];
+      var categories = component.get("combinationChartModel.xAxis.categories").length > 0 ? component.get("combinationChartModel.xAxis.categories") : titles.sort(function (a, b) {
+        return a - b;
+      });
+      var options = _defineProperty({
+        series: series,
+        chart: _objectSpread(_objectSpread({
+          stacked: stacked
+        }, sparkline), {}, {
+          toolbar: {
+            show: false
+          },
+          animations: {
+            enabled: animated
+          },
+          zoom: {
+            enabled: false
+          },
+          events: {
+            dataPointSelection: function dataPointSelection(event, chartContext, _ref) {
+              var seriesIndex = _ref.seriesIndex,
+                dataPointIndex = _ref.dataPointIndex;
+              if (!onColumnClickEventName) {
+                return;
+              }
+              var column = data[series[seriesIndex].name][dataPointIndex];
+              component.call('onColumnClick', column);
+            },
+            markerClick: function markerClick(event, chartContext, _ref2) {
+              var dataPointIndex = _ref2.dataPointIndex;
+              if (!onPointClickEventName) {
+                return;
+              }
+              var point = data[dataPointIndex];
+              component.call('onPointClick', point);
+            }
+          }
+        }),
+        legend: legend,
+        grid: grid,
+        plotOptions: columnWidth != null ? {
+          bar: {
+            columnWidth: "".concat(columnWidth, "%")
+          }
+        } : {},
+        dataLabels: dataLabels,
+        stroke: component.get("combinationChartModel.stroke") || {},
+        theme: component.get("combinationChartModel.theme") || {},
+        title: {
+          text: title,
+          align: "center"
+        },
+        xaxis: {
+          labels: component.get("combinationChartModel.xAxis.labels"),
+          type: categories.every(function (item) {
+            return !isNaN(item);
+          }) ? "datetime" : "category"
+        },
+        yaxis: component.get("combinationChartModel.yAxis") || {},
+        fill: {
+          opacity: component.get('combinationChartModel.opacity')
+        }
+      }, "theme", component.get('combinationChartModel.theme') || {});
+      var colors = component.get("combinationChartModel.colors");
+      if (colors && colors.length > 0) {
+        options['colors'] = colors;
+      }
+      this.chart = new ApexCharts(this.$refs.container, Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["mergedOptionsWithJsonConfig"])(options, jsonConfig));
+      this.chart.render();
+    }
+  };
+};
+/* harmony default export */ __webpack_exports__["default"] = (combinationChart);
 
 /***/ }),
 
@@ -760,179 +905,6 @@ var multiColumnChart = function multiColumnChart() {
   };
 };
 /* harmony default export */ __webpack_exports__["default"] = (multiColumnChart);
-
-/***/ }),
-
-/***/ "./resources/js/multiColumnMultiLineChart.js":
-/*!***************************************************!*\
-  !*** ./resources/js/multiColumnMultiLineChart.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers */ "./resources/js/helpers.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
-function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-var multiColumnMultiLineChart = function multiColumnMultiLineChart() {
-  return {
-    chart: null,
-    init: function init() {
-      var _this = this;
-      setTimeout(function () {
-        _this.drawChart(_this.$wire);
-      }, 0);
-    },
-    drawChart: function drawChart(component) {
-      if (this.chart) {
-        this.chart.destroy();
-      }
-      var title = component.get("columnLineChartModel.title");
-      var stacked = component.get("columnLineChartModel.isStacked");
-      var animated = component.get("columnLineChartModel.animated") || false;
-      var dataLabels = component.get("columnLineChartModel.dataLabels") || {};
-      var columnsData = component.get("columnLineChartModel.columnsData") || [];
-      var linesData = component.get("columnLineChartModel.linesData") || [];
-      var onPointClickEventName = component.get("columnLineChartModel.onPointClickEventName");
-      var onColumnClickEventName = component.get("columnLineChartModel.onColumnClickEventName");
-      var sparkline = component.get("columnLineChartModel.sparkline");
-      var legend = component.get('columnLineChartModel.legend');
-      var grid = component.get('columnLineChartModel.grid');
-      var columnWidth = component.get('columnLineChartModel.columnWidth');
-      var jsonConfig = component.get("columnLineChartModel.jsonConfig");
-      var series = Object.keys(columnsData).map(function (seriesName) {
-        return {
-          name: seriesName,
-          type: "column",
-          data: columnsData[seriesName].map(function (item) {
-            var date = Date.parse(item.title);
-            if (isNaN(date)) {
-              return {
-                x: item.title,
-                y: item.value
-              };
-            } else {
-              return {
-                x: date,
-                y: item.value
-              };
-            }
-          })
-        };
-      }).concat(Object.keys(linesData).map(function (seriesName) {
-        return {
-          name: seriesName,
-          type: "line",
-          data: linesData[seriesName].map(function (item) {
-            var date = Date.parse(item.title);
-            if (isNaN(date)) {
-              return {
-                x: item.title,
-                y: item.value
-              };
-            } else {
-              return {
-                x: date,
-                y: item.value
-              };
-            }
-          })
-        };
-      }));
-      var columnTitles = component.get("columnLineChartModel.xAxis.categories").length > 0 ? component.get("columnLineChartModel.xAxis.categories") : columnsData[series[0].name] && columnsData[series[0].name].length > 0 ? columnsData[series[0].name].map(function (item) {
-        var date = Date.parse(item.title);
-        if (isNaN(date)) {
-          return item.title;
-        } else {
-          return date;
-        }
-      }) : [];
-      var lineTitles = component.get("columnLineChartModel.xAxis.categories").length > 0 ? component.get("columnLineChartModel.xAxis.categories") : linesData[series[0].name] && linesData[series[0].name].length > 0 ? linesData[series[0].name].map(function (item) {
-        var date = Date.parse(item.title);
-        if (isNaN(date)) {
-          return item.title;
-        } else {
-          return date;
-        }
-      }) : [];
-      var categories = component.get("columnLineChartModel.xAxis.categories").length > 0 ? component.get("columnLineChartModel.xAxis.categories") : columnTitles.sort(function (a, b) {
-        return a - b;
-      });
-      var options = _defineProperty({
-        series: series,
-        chart: _objectSpread(_objectSpread({
-          stacked: stacked
-        }, sparkline), {}, {
-          toolbar: {
-            show: false
-          },
-          animations: {
-            enabled: animated
-          },
-          zoom: {
-            enabled: false
-          },
-          events: {
-            dataPointSelection: function dataPointSelection(event, chartContext, _ref) {
-              var seriesIndex = _ref.seriesIndex,
-                dataPointIndex = _ref.dataPointIndex;
-              if (!onColumnClickEventName) {
-                return;
-              }
-              var column = data[series[seriesIndex].name][dataPointIndex];
-              component.call('onColumnClick', column);
-            },
-            markerClick: function markerClick(event, chartContext, _ref2) {
-              var dataPointIndex = _ref2.dataPointIndex;
-              if (!onPointClickEventName) {
-                return;
-              }
-              var point = data[dataPointIndex];
-              component.call('onPointClick', point);
-            }
-          }
-        }),
-        legend: legend,
-        grid: grid,
-        plotOptions: columnWidth != null ? {
-          bar: {
-            columnWidth: "".concat(columnWidth, "%")
-          }
-        } : {},
-        dataLabels: dataLabels,
-        stroke: component.get("columnLineChartModel.stroke") || {},
-        theme: component.get("columnLineChartModel.theme") || {},
-        title: {
-          text: title,
-          align: "center"
-        },
-        xaxis: {
-          labels: component.get("columnLineChartModel.xAxis.labels"),
-          type: categories.every(function (item) {
-            return !isNaN(item);
-          }) ? "datetime" : "category"
-        },
-        yaxis: component.get("columnLineChartModel.yAxis") || {},
-        fill: {
-          opacity: component.get('columnLineChartModel.opacity')
-        }
-      }, "theme", component.get('columnLineChartModel.theme') || {});
-      var colors = component.get("columnLineChartModel.colors");
-      if (colors && colors.length > 0) {
-        options['colors'] = colors;
-      }
-      this.chart = new ApexCharts(this.$refs.container, Object(_helpers__WEBPACK_IMPORTED_MODULE_0__["mergedOptionsWithJsonConfig"])(options, jsonConfig));
-      this.chart.render();
-    }
-  };
-};
-/* harmony default export */ __webpack_exports__["default"] = (multiColumnMultiLineChart);
 
 /***/ }),
 

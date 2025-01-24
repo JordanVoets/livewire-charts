@@ -2,25 +2,25 @@
 
 namespace Asantibanez\LivewireCharts\Charts;
 
-use Asantibanez\LivewireCharts\Models\ColumnLineChartModel;
+use Asantibanez\LivewireCharts\Models\CombinationChartModel;
 use Livewire\Component;
 
 /**
- * Class LivewireColumnLineChart
+ * Class LivewireCombinationChart
  * @package Asantibanez\LivewireCharts\Charts
  */
-class LivewireColumnLineChart extends Component
+class LivewireCombinationChart extends Component
 {
-    public $columnLineChartModel;
+    public $combinationChartModel;
 
-    public function mount(ColumnLineChartModel $columnLineChartModel)
+    public function mount(CombinationChartModel $combinationChartModel)
     {
-        $this->columnLineChartModel = $columnLineChartModel->toArray();
+        $this->combinationChartModel = $combinationChartModel->toArray();
     }
 
     public function onColumnClick($column)
     {
-        $onColumnClickEventName = data_get($this->columnLineChartModel, 'onColumnClickEventName', null);
+        $onColumnClickEventName = data_get($this->combinationChartModel, 'onColumnClickEventName', null);
 
         if ($onColumnClickEventName === null) {
             return;

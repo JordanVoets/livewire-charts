@@ -13,7 +13,7 @@ use Asantibanez\LivewireCharts\Charts\LivewireRadarChart;
 use Asantibanez\LivewireCharts\Charts\LivewireColumnChart;
 use Asantibanez\LivewireCharts\Charts\LivewireRadialChart;
 use Asantibanez\LivewireCharts\Charts\LivewireTreeMapChart;
-use Asantibanez\LivewireCharts\Charts\LivewireColumnLineChart;
+use Asantibanez\LivewireCharts\Charts\LivewireCombinationChart;
 
 class LivewireChartsServiceProvider extends ServiceProvider
 {
@@ -71,7 +71,7 @@ class LivewireChartsServiceProvider extends ServiceProvider
     {
         Livewire::component('livewire-line-chart', LivewireLineChart::class);
         Livewire::component('livewire-column-chart', LivewireColumnChart::class);
-        Livewire::component('livewire-column-line-chart', LivewireColumnLineChart::class);
+        Livewire::component('livewire-column-line-chart', LivewireCombinationChart::class);
         Livewire::component('livewire-pie-chart', LivewirePieChart::class);
         Livewire::component('livewire-area-chart', LivewireAreaChart::class);
         Livewire::component('livewire-radar-chart', LivewireRadarChart::class);

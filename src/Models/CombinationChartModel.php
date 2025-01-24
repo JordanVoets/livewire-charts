@@ -4,12 +4,12 @@
 namespace Asantibanez\LivewireCharts\Models;
 
 /**
- * Class ColumnLineChartModel
+ * Class CombinationChartModel
  * @package Asantibanez\LivewireCharts\Models
  * @property boolean $isMultiColumn
  * @property boolean $isStacked
  */
-class ColumnLineChartModel extends BaseChartModel
+class CombinationChartModel extends BaseChartModel
 {
     private $opacity;
 
@@ -21,9 +21,7 @@ class ColumnLineChartModel extends BaseChartModel
 
     private $onPointClickEventName;
 
-    private $columnsData;
-
-    private $linesData;
+    private $data;
 
     public function __construct()
     {
@@ -39,9 +37,7 @@ class ColumnLineChartModel extends BaseChartModel
 
         $this->isStacked = false;
 
-        $this->columnsData = collect();
-
-        $this->linesData = collect();
+        $this->data = collect();
     }
 
     public function stacked()
@@ -80,52 +76,28 @@ class ColumnLineChartModel extends BaseChartModel
     }
 
     /**
-     * Adds a column to the chart.
+     * Adds a data series to the chart.
      *
      * @param string $seriesName The name of the series.
-     * @param string $title The title of the column.
+     * @param string $type The type of the series.
+     * @param string $title The title of the series.
      * @param mixed $value The value of the column.
      * @param array $extras Optional additional data for the column.
      * @return $this
      */
-    public function addSeriesColumn($seriesName, $title, $value, $extras = [])
+    public function addSeries($seriesName, $type, $title, $value, $extras = [])
     {
-        $series = $this->columnsData->get($seriesName, collect());
+        $series = $this->data->get($seriesName, collect());
 
         $series->push([
             'seriesName' => $seriesName,
+            'type' => $type,
             'title' => $title,
             'value' => $value,
             'extras' => $extras,
         ]);
 
-        $this->columnsData->put($seriesName, $series);
-
-        return $this;
-    }
-
-    /**
-     * Adds a line point to chart.
-     *
-     * @param string $seriesName The name of the series to which the point will be added.
-     * @param string $title The key for the point.
-     * @param mixed $value The value of the point.
-     * @param array $extras Optional. Additional data or attributes for the point.
-     *
-     * @return $this
-     */
-    public function addSeriesPoint($seriesName, $title, $value, $extras = [])
-    {
-        $series = $this->linesData->get($seriesName, collect());
-
-        $series->push([
-            'seriesName' => $seriesName,
-            'title' => $title,
-            'value' => $value,
-            'extras' => $extras,
-        ]);
-
-        $this->linesData->put($seriesName, $series);
+        $this->data->put($seriesName, $series);
 
         return $this;
     }
@@ -139,8 +111,7 @@ class ColumnLineChartModel extends BaseChartModel
             'opacity' => $this->opacity,
             'columnWidth' => $this->columnWidth,
             'isStacked' => $this->isStacked,
-            'columnsData' => $this->columnsData->toArray(),
-            'linesData' => $this->linesData->toArray(),
+            'data' => $this->data->toArray()
         ]);
         return $array;
     }
@@ -159,8 +130,6 @@ class ColumnLineChartModel extends BaseChartModel
 
         $this->isStacked = data_get($array, 'isStacked', false);
 
-        $this->columnsData = collect(data_get($array, 'columnsData', []));
-
-        $this->linesData = collect(data_get($array, 'linesData', []));
+        $this->data = collect(data_get($array, 'data', []));
     }
 }
