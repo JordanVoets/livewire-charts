@@ -533,11 +533,11 @@ var combinationChart = function combinationChart() {
       var grid = component.get('combinationChartModel.grid');
       var columnWidth = component.get('combinationChartModel.columnWidth');
       var jsonConfig = component.get("combinationChartModel.jsonConfig");
-      var series = Object.keys(data).map(function (name, type) {
+      var series = Object.keys(data).map(function (name) {
         return {
           name: name,
-          type: type,
-          data: data[seriesName].map(function (item) {
+          type: data[name][0].type,
+          data: data[name].map(function (item) {
             var date = Date.parse(item.title);
             if (isNaN(date)) {
               return {
