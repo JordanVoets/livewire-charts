@@ -28,13 +28,13 @@ const combinationChart = () => {
             const columnWidth = component.get('combinationChartModel.columnWidth');
             const jsonConfig = component.get("combinationChartModel.jsonConfig");
 
-            const series = Object.keys(data).map(function (name, type) {
+            const series = Object.keys(data).map(function (name) {
               return {
                   name: name,
-                  type: type,
-                  data: data[seriesName].map(function (item) {
+                  type: data[name][0].type,
+                  data: data[name].map(function (item) {
                     const date = Date.parse(item.title)
-
+      
                     if (isNaN(date)) {
                       return { x: item.title, y: item.value }
                     }
