@@ -64,8 +64,6 @@ const combinationChart = () => {
                 series: series,
 
                 chart: {
-                    stacked: stacked,
-
                     ...sparkline,
 
                     toolbar: { show: false },

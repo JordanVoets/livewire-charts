@@ -562,9 +562,7 @@ var combinationChart = function combinationChart() {
       });
       var options = _defineProperty({
         series: series,
-        chart: _objectSpread(_objectSpread({
-          stacked: stacked
-        }, sparkline), {}, {
+        chart: _objectSpread(_objectSpread({}, sparkline), {}, {
           toolbar: {
             show: false
           },
