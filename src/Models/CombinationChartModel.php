@@ -13,29 +13,13 @@ class CombinationChartModel extends BaseChartModel
 {
     private $opacity;
 
-    private $columnWidth;
-
-    private $isStacked;
-
-    private $onColumnClickEventName;
-
-    private $onPointClickEventName;
-
     private $data;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->onColumnClickEventName = null;
-
-        $this->onPointClickEventName = null;
-
         $this->opacity = 0.75;
-
-        $this->columnWidth = null;
-
-        $this->isStacked = false;
 
         $this->data = collect();
     }
@@ -47,13 +31,6 @@ class CombinationChartModel extends BaseChartModel
         return $this;
     }
 
-    public function setColumnWidth($value)
-    {
-        $this->columnWidth = $value;
-
-        return $this;
-    }
-
     public function setOpacity($opacity)
     {
         $this->opacity = $opacity;
@@ -61,31 +38,7 @@ class CombinationChartModel extends BaseChartModel
         return $this;
     }
 
-    public function withOnColumnClickEventName($onColumnClickEventName)
-    {
-        $this->onColumnClickEventName = $onColumnClickEventName;
-
-        return $this;
-    }
-
-    public function withOnPointClickEventName($onPointClickEventName)
-    {
-        $this->onPointClickEventName = $onPointClickEventName;
-
-        return $this;
-    }
-
-    /**
-     * Adds a data to the chart.
-     *
-     * @param string $seriesName The name of the series.
-     * @param string $type The type of the series.
-     * @param string $title The title of the data point.
-     * @param mixed $value The value of the data point.
-     * @param array $extras Optional additional data for the column.
-     * @return $this
-     */
-    public function addSeriesData($seriesName, $type, $title, $value, $extras = [])
+    public function addSeriesData($seriesName, $type, $title, $value)
     {
         $series = $this->data->get($seriesName, collect());
 
@@ -94,7 +47,6 @@ class CombinationChartModel extends BaseChartModel
             'type' => $type,
             'title' => $title,
             'value' => $value,
-            'extras' => $extras,
         ]);
 
         $this->data->put($seriesName, $series);
@@ -106,10 +58,7 @@ class CombinationChartModel extends BaseChartModel
     public function toArray()
     {
         $array = array_merge(parent::toArray(), [
-            'onColumnClickEventName' => $this->onColumnClickEventName,
-            'onPointClickEventName' => $this->onPointClickEventName,
             'opacity' => $this->opacity,
-            'columnWidth' => $this->columnWidth,
             'isStacked' => $this->isStacked,
             'data' => $this->data->toArray()
         ]);
@@ -120,13 +69,7 @@ class CombinationChartModel extends BaseChartModel
     {
         parent::fromArray($array);
 
-        $this->onColumnClickEventName = data_get($array, 'onColumnClickEventName', null);
-
-        $this->onPointClickEventName = data_get($array, 'onPointClickEventName', null);
-
         $this->opacity = data_get($array, 'opacity', 0.5);
-
-        $this->columnWidth = data_get($array, 'columnWidth');
 
         $this->isStacked = data_get($array, 'isStacked', false);
 

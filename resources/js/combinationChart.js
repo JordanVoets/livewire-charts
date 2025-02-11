@@ -16,16 +16,12 @@ const combinationChart = () => {
             }
 
             const title = component.get("combinationChartModel.title");
-            const stacked = component.get("combinationChartModel.isStacked");
             const animated = component.get("combinationChartModel.animated") || false;
             const dataLabels = component.get("combinationChartModel.dataLabels") || {};
             const data = component.get("combinationChartModel.data") || [];
-            const onPointClickEventName = component.get("combinationChartModel.onPointClickEventName",);
-            const onColumnClickEventName = component.get("combinationChartModel.onColumnClickEventName");
             const sparkline = component.get("combinationChartModel.sparkline");
             const legend = component.get('combinationChartModel.legend');
             const grid = component.get('combinationChartModel.grid');
-            const columnWidth = component.get('combinationChartModel.columnWidth');
             const jsonConfig = component.get("combinationChartModel.jsonConfig");
 
             const series = Object.keys(data).map(function (name) {
