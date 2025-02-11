@@ -96,12 +96,6 @@ const combinationChart = () => {
 
                 grid: grid,
 
-                plotOptions: columnWidth != null ? {
-                    bar: {
-                        columnWidth: `${columnWidth}%`,
-                    },
-                } : {},
-
                 dataLabels: dataLabels,
 
                 stroke: component.get("combinationChartModel.stroke") || {},

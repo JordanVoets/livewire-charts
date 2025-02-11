@@ -594,11 +594,6 @@ var combinationChart = function combinationChart() {
         }),
         legend: legend,
         grid: grid,
-        plotOptions: columnWidth != null ? {
-          bar: {
-            columnWidth: "".concat(columnWidth, "%")
-          }
-        } : {},
         dataLabels: dataLabels,
         stroke: component.get("combinationChartModel.stroke") || {},
         theme: component.get("combinationChartModel.theme") || {},
