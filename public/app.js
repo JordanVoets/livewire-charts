@@ -522,16 +522,12 @@ var combinationChart = function combinationChart() {
         this.chart.destroy();
       }
       var title = component.get("combinationChartModel.title");
-      var stacked = component.get("combinationChartModel.isStacked");
       var animated = component.get("combinationChartModel.animated") || false;
       var dataLabels = component.get("combinationChartModel.dataLabels") || {};
       var data = component.get("combinationChartModel.data") || [];
-      var onPointClickEventName = component.get("combinationChartModel.onPointClickEventName");
-      var onColumnClickEventName = component.get("combinationChartModel.onColumnClickEventName");
       var sparkline = component.get("combinationChartModel.sparkline");
       var legend = component.get('combinationChartModel.legend');
       var grid = component.get('combinationChartModel.grid');
-      var columnWidth = component.get('combinationChartModel.columnWidth');
       var jsonConfig = component.get("combinationChartModel.jsonConfig");
       var series = Object.keys(data).map(function (name) {
         return {
